@@ -8,7 +8,7 @@ let tasksEl = document.getElementById('tasks');
 
 
 // global variables
-let tasks = [];
+let tasks = loadTasks();
 displayAll();
 
 // Go Btn - Menu Listener
@@ -38,17 +38,40 @@ function addTask() {
 
 }
 
+// Toggle completed status of a task
 function toggleTask() {
   console.log('Toggle Task');
+  let index = prompt("Enter # of task: ")
+  let task = tasks[index];
+  if (task.completed === ''){
+    task.completed = 'completed';
+
+  } else {
+    task.completed = '';
+
+  }
+  savetasks();
+  displayAll();
 }
 
 function removeTask() {
   console.log('Remove Task');
+  let index = +prompt("Enter # of task:");
+  if (index >= 0 && index < tasks.length){
+    // valid index -> remove
+    tasks.splice(index, 1);
+    savetasks();
+    displayAll();
+  } else {
+    alert("Invalid Task #")
+  }
 }
 
 function clearAll() {
-  console.log('Clear All');
-
+  tasks = []
+  savetasks();
+  displayAll();
+  
 }
 
 
@@ -71,7 +94,7 @@ function displayAll(){
 
 function getTasksHTMLStr(task, i){
   return `
-    <div>
+    <div class="${task.completed}">
       ${i}: ${task.description}
     </div>
   `;
@@ -83,5 +106,5 @@ function savetasks(){
 
 function loadTasks(){
   let tasksStr = localStorage.getItem("tasks");
-  return JSON.parse(tasksStr)
+  return JSON.parse(tasksStr) ?? []
 }
