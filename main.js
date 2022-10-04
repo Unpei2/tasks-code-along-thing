@@ -68,6 +68,7 @@ function removeTask() {
 }
 
 function clearAll() {
+  console.log(tasks)
   tasks = []
   savetasks();
   displayAll();
@@ -77,6 +78,7 @@ function clearAll() {
 
 // Helper Functions
 function newtask(taskDescription){
+  
   return {
     description: taskDescription,
     completed: '',
